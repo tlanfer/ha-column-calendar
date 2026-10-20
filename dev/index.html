@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Column Calendar Card – dev</title>
+    <link rel="icon" href="data:," />
+    <style>
+      /* HA theme variables (light = HA default theme). */
+      :root {
+        --primary-background-color: #fafafa;
+        --card-background-color: #ffffff;
+        --ha-card-background: var(--card-background-color);
+        --primary-text-color: #212121;
+        --secondary-text-color: #727272;
+        --divider-color: rgba(0, 0, 0, 0.12);
+        --primary-color: #03a9f4;
+        color-scheme: light;
+      }
+      :root[data-theme='dark'] {
+        --primary-background-color: #111111;
+        --card-background-color: #1c1c1c;
+        --primary-text-color: #e1e1e1;
+        --secondary-text-color: #9b9b9b;
+        --divider-color: rgba(225, 225, 225, 0.12);
+        --primary-color: #03a9f4;
+        color-scheme: dark;
+      }
+      body {
+        margin: 0;
+        padding: 16px 24px 48px;
+        font-family: Roboto, system-ui, sans-serif;
+        background: var(--primary-background-color);
+        color: var(--primary-text-color);
+      }
+      header {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 8px 16px;
+        margin-bottom: 16px;
+      }
+      header h1 {
+        font-size: 18px;
+        margin: 0 auto 0 0;
+      }
+      header button {
+        font: inherit;
+        padding: 6px 12px;
+        border-radius: 6px;
+        border: 1px solid var(--divider-color);
+        background: var(--card-background-color);
+        color: var(--primary-text-color);
+        cursor: pointer;
+      }
+      header .hint {
+        flex-basis: 100%;
+        font-size: 12px;
+        color: var(--secondary-text-color);
+      }
+      #app {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+        gap: 24px;
+        align-items: start;
+      }
+      .demo {
+        min-width: 0;
+      }
+      .demo.full {
+        grid-column: 1 / -1;
+      }
+      .demo h2 {
+        font-size: 13px;
+        font-weight: 500;
+        margin: 0 0 6px;
+        color: var(--secondary-text-color);
+      }
+      .demo .narrow {
+        width: 360px;
+        max-width: 100%;
+      }
+      /* Emulates a sections-view grid cell: 12 columns, rows: 6 → 6*56 + 5*8 = 376px. */
+      .demo .grid-cell {
+        height: 376px;
+        outline: 1px dashed var(--primary-color);
+        outline-offset: 2px;
+      }
+      .editor-grid {
+        display: grid;
+        grid-template-columns: minmax(320px, 480px) minmax(0, 1fr);
+        gap: 24px;
+        align-items: start;
+      }
+      @media (max-width: 860px) {
+        .editor-grid {
+          grid-template-columns: minmax(0, 1fr);
+        }
+      }
+      .editor-pane {
+        padding: 16px;
+        border-radius: 12px;
+        border: 1px solid var(--divider-color);
+        background: var(--card-background-color);
+      }
+      .preview-pane {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        min-width: 0;
+      }
+      .config-dump {
+        margin: 0;
+        padding: 12px;
+        font-size: 12px;
+        border-radius: 8px;
+        border: 1px solid var(--divider-color);
+        background: var(--card-background-color);
+        overflow: auto;
+      }
+      [hidden] {
+        display: none !important;
+      }
+      .config-error {
+        padding: 12px 16px;
+        border-radius: 8px;
+        border: 1px solid #db4437;
+        background: color-mix(in srgb, #db4437 10%, var(--card-background-color));
+        color: var(--primary-text-color);
+        font-size: 14px;
+        white-space: pre-wrap;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Column Calendar Card – dev harness</h1>
+      <button id="toggle-theme" type="button">Theme: light</button>
+      <button id="toggle-lang" type="button">Language: en</button>
+      <span class="hint">
+        URL params: ?lang=de|en · ?theme=dark · ?tf=12|24 · ?first=sunday · ?error=calendar.trash ·
+        ?push=30 (re-push every 30 s). Subscriptions are logged to the console.
+      </span>
+    </header>
+    <main id="app"></main>
+    <script type="module" src="./main.ts"></script>
+  </body>
+</html>
